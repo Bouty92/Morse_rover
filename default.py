@@ -6,7 +6,7 @@ Feel free to edit this template as you like!
 """
 
 from morse.builder import *
-from Morse_rover.builder.robots import Rover1
+from Morse_rover.builder.robots import Rover1, Rover2
 
 
 # Add the MORSE mascott, MORSY.
@@ -14,7 +14,8 @@ from Morse_rover.builder.robots import Rover1
 # http://www.openrobots.org/morse/doc/stable/components_library.html
 #
 # 'morse add robot <name> Morse_rover' can help you to build custom robots.
-rover = Rover1()
+#rover = Rover1()
+rover = Rover2()
 #rover.translate( 0, 0, 1 )
 #rover.rotate( 180, ( 0, 0, 1 ) )
 
@@ -57,6 +58,7 @@ rover.add_default_interface( 'socket' )
 #env = Environment( 'outdoors', fastmode=False )
 #env = Environment( './mars_scene.blend', fastmode=False )
 env = Environment( './scene_1.blend', fastmode=False )
+#env = Environment( './scene_1.blend', fastmode=True )
 
 env.set_time_strategy( TimeStrategies.FixedSimulationStep )
 #env.simulator_frequency( 60 )
