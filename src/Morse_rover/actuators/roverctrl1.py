@@ -92,11 +92,11 @@ class hingeController() :
 		return true_value, torque
 
 
-class Roverctrl( morse.core.actuator.Actuator ) :
+class Roverctrl1( morse.core.actuator.Actuator ) :
 	"""Write here the general documentation of your actuator.
 	It will appear in the generated online documentation.
 	"""
-	_name = "Roverctrl"
+	_name = "Roverctrl1"
 	_short_desc = "Management of the rover actuation"
 
 	# define here the data fields required by your actuator

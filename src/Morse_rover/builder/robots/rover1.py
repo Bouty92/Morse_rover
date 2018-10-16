@@ -1,10 +1,10 @@
 from morse.builder import *
-from Morse_rover.builder.actuators import Roverctrl
+from Morse_rover.builder.actuators import Roverctrl1
 
 
 class Rover1( Robot ):
 	"""
-	First version of the 2 DOF rover, with a roverctrl and a pose sensor.
+	First version of the 2 DOF rover, with a roverctrl1 and a pose sensor.
 	"""
 	def __init__( self, name=None, debug=True ):
 
@@ -20,7 +20,7 @@ class Rover1( Robot ):
 		# Actuators
 		###################################
 
-		self.actuation = Roverctrl()
+		self.actuation = Roverctrl1()
 		self.append( self.actuation )
 
 		# Optionally allow to move the robot with the keyboard
