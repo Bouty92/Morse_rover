@@ -62,7 +62,7 @@ env = Environment( './scene_1.blend', fastmode=False )
 
 env.set_time_strategy( TimeStrategies.FixedSimulationStep )
 #env.simulator_frequency( 60 )
-#env.set_physics_step_sub( 5 )
+env.set_physics_step_sub( 5 )
 env.show_framerate()
 #env.show_physics()
 

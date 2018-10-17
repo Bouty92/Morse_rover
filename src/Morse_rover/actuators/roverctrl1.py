@@ -101,9 +101,9 @@ class Roverctrl1( morse.core.actuator.Actuator ) :
 
 	# define here the data fields required by your actuator
 	# format is: field name, initial value, type, description
-	add_data( 'speed', 0, 'float', 'Desired speed of the rover' )
-	add_data( 'angle', 0, 'float', 'Desired steering angle of the rover' )
-	add_data( 'torque', 0, 'float', 'Torque to be applied on the boggie of the rover' )
+	add_data( 'speed', 0, 'float', 'Desired speed of the rover (m/s)' )
+	add_data( 'angle', 0, 'float', 'Desired steering angle of the rover (°)' )
+	add_data( 'torque', 0, 'float', 'Torque to be applied on the boggie of the rover (N.m)' )
 	add_data( 'crawl', False, 'bool', 'Crawling mode for wheel speed' )
 
 

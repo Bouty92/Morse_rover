@@ -101,9 +101,9 @@ class Roverctrl2( morse.core.actuator.Actuator ) :
 
 	# define here the data fields required by your actuator
 	# format is: field name, initial value, type, description
-	add_data( 'speed', 0, 'float', 'Desired speed of the rover' )
-	add_data( 'angle', 0, 'float', 'Desired steering angle of the rover' )
-	add_data( 'torque', 0, 'float', 'Torque to be applied on the boggie of the rover' )
+	add_data( 'speed', 0, 'float', 'Desired speed of the rover (m/s)' )
+	add_data( 'angle', 0, 'float', 'Desired steering angle rate of the rover (°/s)' )
+	add_data( 'torque', 0, 'float', 'Torque to be applied on the boggie of the rover (N.m)' )
 	add_data( 'crawl', False, 'bool', 'Crawling mode for wheel speed' )
 
 
@@ -120,12 +120,6 @@ class Roverctrl2( morse.core.actuator.Actuator ) :
 		self.wheels_radius = 0.15
 		self.wheelbase = 0.7
 		self.track = 0.7
-
-		self.sea_stiffness = 200
-		#self.sea_Kp = 0
-		#self.sea_Ki = 0
-		#self.sea_Kd = 0
-		self.sea_angle_limit = 40*pi/180
 
 		self.front_frame = self.scene.objects['front frame']
 		self.rear_frame = self.scene.objects['rear frame']
@@ -146,12 +140,19 @@ class Roverctrl2( morse.core.actuator.Actuator ) :
 		for i in range( 4 ) :
 			self.wheels_controllers.append( hingeController( self.wheels[i], self.axles[i], ( 0, 1, 0 ), 'SPEED', self.wheels_Kp, self.wheels_Ki, self.wheels_Kd, self.wheels_max_torque ) )
 
-		self.steering_Kp = 200
+		self.steering_angle_limit = 45*pi/180
+		self.steering_Kp = 100
 		self.steering_Ki = 10
-		self.steering_Kd = 50
+		self.steering_Kd = 0
 		self.steering_max_torque = 100
-		self.steering_controller = hingeController( self.rear_frame, self.front_frame, ( 0, 0, 1 ), Kp=self.steering_Kp, Ki=self.steering_Ki, Kd=self.steering_Kd, max_torque=self.steering_max_torque )
+		self.steering_controller = hingeController( self.rear_frame, self.front_frame, ( 0, 0, 1 ), 'SPEED', Kp=self.steering_Kp, Ki=self.steering_Ki, Kd=self.steering_Kd, max_torque=self.steering_max_torque )
 		
+
+		self.sea_stiffness = 200
+		#self.sea_Kp = 0
+		#self.sea_Ki = 0
+		#self.sea_Kd = 0
+		self.sea_angle_limit = 40*pi/180
 		self.sea_hinge_Kp = 200
 		self.sea_hinge_Ki = 10
 		self.sea_hinge_Kd = 50
@@ -161,6 +162,7 @@ class Roverctrl2( morse.core.actuator.Actuator ) :
 		self.sea_spring = hingeController( self.sea_hinge, self.boggie, ( 1, 0, 0 ) )
 
 		self.leg_stiffness = 200
+		self.leg_damping = 1
 		self.torque_sensors = []
 		for i in range( 4 ) :
 			self.torque_sensors.append( hingeController( self.axles[i], ( self.front_frame if i < 2 else self.boggie ), ( 0, 1, 0 ) ) )
@@ -225,10 +227,14 @@ class Roverctrl2( morse.core.actuator.Actuator ) :
 
 
 		# Steering angle control:
-		steering_angle = self.local_data['angle']*pi/180
+		turning_rate = self.local_data['angle']*pi/180
 
-		true_angle, torque = self.steering_controller.update( steering_angle )
-		#print( '%+f %+f' % ( true_angle*180/pi, torque ) )
+		if self.steering_controller.getAngle() >= self.steering_angle_limit :
+			turning_rate = min( 0, turning_rate )
+		elif self.steering_controller.getAngle() <= -self.steering_angle_limit :
+			turning_rate = max( 0, turning_rate )
+		true_rate, torque = self.steering_controller.update( turning_rate )
+		#print( '%+f %+f' % ( true_rate*180/pi, torque ) )
 
 
 		# SEA control:
@@ -251,7 +257,7 @@ class Roverctrl2( morse.core.actuator.Actuator ) :
 		leg_torques = []
 		for leg in self.torque_sensors :
 			leg_torques.append( -self.leg_stiffness*leg.getAngle() )
-			leg.applyTorque( leg_torques[-1] )
+			leg.applyTorque( leg_torques[-1] - self.leg_damping*leg.getAngleRate() )
 		#print( leg_torques[0], leg_torques[1], leg_torques[2], leg_torques[3] )
 
 
