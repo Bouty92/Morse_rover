@@ -6,7 +6,7 @@ from morse.core.services import service, async_service
 from morse.core import status
 from morse.helpers.components import add_data, add_property
 
-from Morse_rover.actuators.roverctrl1 import hingeController
+from Morse_rover.actuators.roverctrl2 import hingeController
 
 
 class Straingauges(morse.core.sensor.Sensor):

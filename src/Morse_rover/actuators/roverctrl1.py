@@ -140,7 +140,7 @@ class Roverctrl1( morse.core.actuator.Actuator ) :
 		self.wheels_Kp = 1.2
 		self.wheels_Ki = 0
 		self.wheels_Kd = 0
-		self.wheels_max_torque = 10
+		self.wheels_max_torque = 100
 		self.wheels_controllers = []
 		self.wheels_controllers.append( hingeController( self.wheel_1, self.front_frame, ( 0, 1, 0 ), 'SPEED', self.wheels_Kp, self.wheels_Ki, self.wheels_Kd, self.wheels_max_torque ) )
 		self.wheels_controllers.append( hingeController( self.wheel_2, self.front_frame, ( 0, 1, 0 ), 'SPEED', self.wheels_Kp, self.wheels_Ki, self.wheels_Kd, self.wheels_max_torque ) )

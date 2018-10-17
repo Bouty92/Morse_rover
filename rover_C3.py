@@ -11,6 +11,8 @@ if __name__ == '__main__' :
 # PARAMETERS #
 ##############
 
+wheels_friction = 0.7
+
 wheelbase = 0.7
 track = 0.7
 wheels_radius = 0.15
@@ -172,6 +174,7 @@ for wheel in wheels :
 	wheel.game.use_collision_bounds = True
 	wheel.game.collision_bounds_type = 'CYLINDER'
 	wheel.game.mass = wheels_mass
+	wheel.active_material.physics.friction = wheels_friction
 
 
 if __name__ == '__main__' :

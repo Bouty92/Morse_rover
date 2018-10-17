@@ -14,8 +14,8 @@ from Morse_rover.builder.robots import Rover1, Rover2
 # http://www.openrobots.org/morse/doc/stable/components_library.html
 #
 # 'morse add robot <name> Morse_rover' can help you to build custom robots.
-#rover = Rover1()
-rover = Rover2()
+rover = Rover1()
+#rover = Rover2()
 #rover.translate( 0, 0, 1 )
 #rover.rotate( 180, ( 0, 0, 1 ) )
 
