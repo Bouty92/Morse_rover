@@ -85,6 +85,12 @@ wheels = []
 for i in range( 4 ) :
 	wheels.append( cylinder_c( ( ( -1 if i//2 else 1 )*wheelbase/2, ( -1 if i%2 else 1 )*track/2, wheels_radius ), ( 0, 1, 0 ), wheels_width, wheels_radius, wheels_vertices, mat=wheels_color ) )
 	wheels[i].name = 'wheel ' + str( i + 1 )
+	#bpy.ops.mesh.primitive_torus_add( rotation=( pi/2, 0, 0 ), location=( ( -1 if i//2 else 1 )*wheelbase/2, ( -1 if i%2 else 1 )*track/2, wheels_radius ), major_radius=wheels_radius-wheels_width/2, minor_radius=wheels_width/2 )
+	#wheel = bpy.context.object
+	#wheel.data.materials.append( wheels_color )
+	#bpy.ops.object.shade_smooth()
+	#wheel.name = 'wheel ' + str( i + 1 )
+	#wheels.append( wheel )
 
 for i in range( 4 ) :
 	marker = cylinder_c( ( ( -1 if i//2 else 1 )*wheelbase/2, ( -1 if i%2 else 1 )*track/2, wheels_radius/3 ), ( 0, 1, 0 ), wheels_width + 0.001, wheels_radius/6, 4, mat=white )
@@ -171,10 +177,11 @@ for i in range( 4 ) :
 
 for wheel in wheels :
 	wheel.game.physics_type = 'RIGID_BODY'
-	wheel.game.use_collision_bounds = True
-	wheel.game.collision_bounds_type = 'CYLINDER'
 	wheel.game.mass = wheels_mass
 	wheel.active_material.physics.friction = wheels_friction
+	wheel.game.use_collision_bounds = True
+	wheel.game.collision_bounds_type = 'CYLINDER'
+	#wheel.game.collision_bounds_type = 'CONVEX_HULL'
 
 
 if __name__ == '__main__' :

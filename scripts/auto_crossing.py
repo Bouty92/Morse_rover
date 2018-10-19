@@ -18,7 +18,8 @@ class crossing_control() :
 		self.speed = 0.2
 		self.angle = 0
 		self.torque = 0
-		self.crawling_mode = False
+		#self.crawling_mode = False
+		self.crawling_mode = True
 
 		self.topic = topic
 
@@ -27,19 +28,19 @@ class crossing_control() :
 		self.torque = 0
 		print( 'DEFAULT' )
 	def release_1( self ) :
-		self.angle = 0
+		self.angle = self.turning_rate
 		self.torque = -self.torque_modulation
 		print( 'RELEASE 1' )
 	def release_2( self ) :
-		self.angle = 0
+		self.angle = -self.turning_rate
 		self.torque = self.torque_modulation
 		print( 'RELEASE 2' )
 	def release_3( self ) :
-		self.angle = 0
+		self.angle = -self.turning_rate
 		self.torque = self.torque_modulation
 		print( 'RELEASE 3' )
 	def release_4( self ) :
-		self.angle = 0
+		self.angle = self.turning_rate
 		self.torque = -self.torque_modulation
 		print( 'RELEASE 4' )
 	def rot_left( self ) :
