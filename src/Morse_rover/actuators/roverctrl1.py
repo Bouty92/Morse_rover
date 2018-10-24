@@ -194,6 +194,13 @@ class Roverctrl1( morse.core.actuator.Actuator ) :
 		Implements the component behaviour
 		"""
 
+		# Steering angle control:
+		steering_angle = self.local_data['angle']*pi/180
+
+		true_angle, torque = self.steering_controller.update( steering_angle )
+		#print( '%+f %+f' % ( true_angle*180/pi, torque ) )
+
+
 		# Wheel speed control:
 		robot_speed = self.local_data['speed']
 
@@ -206,7 +213,7 @@ class Roverctrl1( morse.core.actuator.Actuator ) :
 			min_speed = 0
 			for i, controller in enumerate( self.wheels_controllers ) :
 				diff.append( ( -1 if i%2 else 1 )*self.track/self.wheelbase*tan( beta/2 ) )
-				trans.append( ( -1 if i//2 else 1 )*( -self.wheelbase*tan( beta/2 ) + ( -1 if i%2 else 1 )*self.track )*dbeta_dt )
+				trans.append( ( -1 if i//2 else 1 )*( -self.wheelbase*tan( beta/2 ) + ( -1 if i%2 else 1 )*self.track )*dbeta_dt/4 )
 				min_speed = max( min_speed, -trans[i]/( 1 + diff[i] ) )
 			robot_speed += min_speed
 			for i, controller in enumerate( self.wheels_controllers ) :
@@ -215,18 +222,11 @@ class Roverctrl1( morse.core.actuator.Actuator ) :
 			#print( '\n' )
 		else :
 			for i, controller in enumerate( self.wheels_controllers ) :
-				omega_steer = ( -1 if i//2 else 1 )*( -self.wheelbase*tan( beta/2 ) + ( -1 if i%2 else 1 )*self.track )*dbeta_dt/self.wheels_radius
+				omega_steer = ( -1 if i//2 else 1 )*( -self.wheelbase*tan( beta/2 ) + ( -1 if i%2 else 1 )*self.track )*dbeta_dt/4/self.wheels_radius
 				omega_turn = ( -1 if i%2 else 1 )*self.track/self.wheelbase*tan( beta/2 )*robot_speed/self.wheels_radius
 				true_speed, torque = controller.update( robot_speed/self.wheels_radius + omega_steer + omega_turn )
 				#if i == 0 :
 					#print( '%+f %+f' % ( true_speed*180/pi, torque ) )
-
-
-		# Steering angle control:
-		steering_angle = self.local_data['angle']*pi/180
-
-		true_angle, torque = self.steering_controller.update( steering_angle )
-		#print( '%+f %+f' % ( true_angle*180/pi, torque ) )
 
 
 		# SEA control:

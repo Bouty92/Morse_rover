@@ -20,11 +20,11 @@ wheels_width = 0.1
 wheels_vertices = 80
 wheels_color = dark
 wheels_axle_y = track/2 - 0.08
-wheels_mass = 2
+wheels_mass = 1.5
 
 torque_sensor_height = wheels_radius + 0.05
 axles_BM_size = ( torque_sensor_height - wheels_radius, track/2 - wheels_axle_y, torque_sensor_height - wheels_radius )
-axles_BM_mass = 0.1
+axles_BM_mass = 0.5
 
 chassis_height = 0.3
 
@@ -68,12 +68,12 @@ rear_frame_BM_mass = 1
 boggie_color = green
 boggie_BM_CoM = ( ( boggie_x - wheelbase/2 )/2, 0, ( torque_sensor_height + chassis_height )/2 )
 boggie_BM_size = ( abs( -wheelbase/2 - boggie_x ), wheels_axle_y*2, chassis_height - torque_sensor_height )
-boggie_BM_mass = 2
+boggie_BM_mass = 1
 
 sea_hinge_color = cyan
 sea_hinge_BM_CoM = ( ( sea_hinge_x + r_actuator_pos2[0] )/2, r_actuator_pos2[1]/2, ( chassis_height + r_actuator_pos2[2] )/2 )
 sea_hinge_BM_size = ( abs( r_actuator_pos2[0] - sea_hinge_x ), abs( r_actuator_pos2[1] ), r_actuator_pos2[2] - chassis_height )
-sea_hinge_BM_mass = 2
+sea_hinge_BM_mass = 0.5
 
 
 ###########

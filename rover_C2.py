@@ -64,12 +64,12 @@ rear_frame_BM_mass = 1
 boggie_color = green
 boggie_BM_CoM = ( ( boggie_x - wheelbase/2 )/2, 0, ( wheels_radius + chassis_height )/2 )
 boggie_BM_size = ( abs( -wheelbase/2 - boggie_x ), wheels_axle_y*2, chassis_height - wheels_radius )
-boggie_BM_mass = 2
+boggie_BM_mass = 1
 
 sea_hinge_color = cyan
 sea_hinge_BM_CoM = ( ( sea_hinge_x + r_actuator_pos2[0] )/2, r_actuator_pos2[1]/2, ( chassis_height + r_actuator_pos2[2] )/2 )
 sea_hinge_BM_size = ( abs( r_actuator_pos2[0] - sea_hinge_x ), abs( r_actuator_pos2[1] ), r_actuator_pos2[2] - chassis_height )
-sea_hinge_BM_mass = 2
+sea_hinge_BM_mass = 0.5
 
 
 ###########
