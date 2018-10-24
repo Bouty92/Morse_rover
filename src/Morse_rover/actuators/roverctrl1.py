@@ -74,6 +74,8 @@ class hingeController() :
 
 		time = blenderapi.persistantstorage().time.time
 		elapsed_time = time - self.prev_time
+		if self.obj1.name == 'rear frame' :
+			print( 'component: %f' % elapsed_time )
 
 		self.int_err += ( self.prev_err + err )/2*elapsed_time
 
@@ -137,7 +139,7 @@ class Roverctrl1( morse.core.actuator.Actuator ) :
 		self.wheel_3 = self.scene.objects['wheel 3']
 		self.wheel_4 = self.scene.objects['wheel 4']
 
-		self.wheels_Kp = 1.2
+		self.wheels_Kp = 5
 		self.wheels_Ki = 0
 		self.wheels_Kd = 0
 		self.wheels_max_torque = 100

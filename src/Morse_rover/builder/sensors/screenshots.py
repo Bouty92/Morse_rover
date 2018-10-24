@@ -8,3 +8,5 @@ class Screenshots(SensorCreator):
 		SensorCreator.__init__(self, name)
 
 		self.frequency( 25 )
+
+

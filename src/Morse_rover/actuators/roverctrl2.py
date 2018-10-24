@@ -133,7 +133,7 @@ class Roverctrl2( morse.core.actuator.Actuator ) :
 		for i in range( 4 ) :
 			self.axles.append( self.scene.objects['axles ' + str( i + 1 )] )
 
-		self.wheels_Kp = 1.2
+		self.wheels_Kp = 5
 		self.wheels_Ki = 0
 		self.wheels_Kd = 0
 		self.wheels_max_torque = 100
@@ -205,32 +205,32 @@ class Roverctrl2( morse.core.actuator.Actuator ) :
 		beta = self.steering_controller.getAngle()
 		dbeta_dt = self.steering_controller.getAngleRate()
 
-		#if self.local_data['crawl'] :
-		#	diff = []
-		#	trans = []
-		#	min_speed = 0
-		#	for i, controller in enumerate( self.wheels_controllers ) :
-		#		diff.append( ( -1 if i%2 else 1 )*self.track/self.wheelbase*tan( beta/2 ) )
-		#		trans.append( ( -1 if i//2 else 1 )*( -self.wheelbase*tan( beta/2 ) + ( -1 if i%2 else 1 )*self.track )*dbeta_dt )
-		#		min_speed = max( min_speed, -trans[i]/( 1 + diff[i] ) )
-		#	robot_speed += min_speed
-		#	for i, controller in enumerate( self.wheels_controllers ) :
-		#		true_speed, torque = controller.update( ( robot_speed*( 1 + diff[i] ) + trans[i] )/self.wheels_radius )
-		#		#print( ( robot_speed*( 1 + diff[i] ) + trans[i] )/self.wheels_radius, end=' ' )
-		#	#print( '\n' )
-		#else :
-		#	for i, controller in enumerate( self.wheels_controllers ) :
-		#		omega_steer = ( -1 if i//2 else 1 )*( -self.wheelbase*tan( beta/2 ) + ( -1 if i%2 else 1 )*self.track )*dbeta_dt/self.wheels_radius
-		#		omega_turn = ( -1 if i%2 else 1 )*self.track/self.wheelbase*tan( beta/2 )*robot_speed/self.wheels_radius
-		#		true_speed, torque = controller.update( robot_speed/self.wheels_radius + omega_steer + omega_turn )
-		#		#if i == 0 :
-		#			#print( '%+f %+f' % ( true_speed*180/pi, torque ) )
 		if self.local_data['crawl'] :
-			self.wheels_controllers[1].update( 0 )
-			self.wheels_controllers[2].update( 0 )
+			diff = []
+			trans = []
+			min_speed = 0
+			for i, controller in enumerate( self.wheels_controllers ) :
+				diff.append( ( -1 if i%2 else 1 )*self.track/self.wheelbase*tan( beta/2 ) )
+				trans.append( ( -1 if i//2 else 1 )*( -self.wheelbase*tan( beta/2 ) + ( -1 if i%2 else 1 )*self.track )*dbeta_dt )
+				min_speed = max( min_speed, -trans[i]/( 1 + diff[i] ) )
+			robot_speed += min_speed
+			for i, controller in enumerate( self.wheels_controllers ) :
+				true_speed, torque = controller.update( ( robot_speed*( 1 + diff[i] ) + trans[i] )/self.wheels_radius )
+				#print( ( robot_speed*( 1 + diff[i] ) + trans[i] )/self.wheels_radius, end=' ' )
+			#print( '\n' )
 		else :
-			self.wheels_controllers[0].update( 0 )
-			self.wheels_controllers[3].update( 0 )
+			for i, controller in enumerate( self.wheels_controllers ) :
+				omega_steer = ( -1 if i//2 else 1 )*( -self.wheelbase*tan( beta/2 ) + ( -1 if i%2 else 1 )*self.track )*dbeta_dt/self.wheels_radius
+				omega_turn = ( -1 if i%2 else 1 )*self.track/self.wheelbase*tan( beta/2 )*robot_speed/self.wheels_radius
+				true_speed, torque = controller.update( robot_speed/self.wheels_radius + omega_steer + omega_turn )
+				#if i == 0 :
+					#print( '%+f %+f' % ( true_speed*180/pi, torque ) )
+		#if self.local_data['crawl'] :
+			#self.wheels_controllers[1].update( 0 )
+			#self.wheels_controllers[2].update( 0 )
+		#else :
+			#self.wheels_controllers[0].update( 0 )
+			#self.wheels_controllers[3].update( 0 )
 
 
 		# Steering angle control:

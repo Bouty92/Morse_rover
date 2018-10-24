@@ -21,6 +21,7 @@ class Rover1( Robot ):
 		###################################
 
 		self.actuation = Roverctrl1()
+		#self.actuation.frequency( 1000 )
 		self.append( self.actuation )
 
 		# Optionally allow to move the robot with the keyboard
