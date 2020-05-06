@@ -5,6 +5,30 @@ import mathutils
 from math import pi
 
 
+#rod_radius = 0.005
+#cylinder_radius = 0.02
+
+#hinge_joint_width = 0.08
+#hinge_joint_radius = 0.025
+#hinge_joint_gap = 0.01
+
+#ball_joint_outer_radius = 0.025
+#ball_joint_inner_radius = 0.02
+#ball_joint_cover_offset = 0.005
+
+
+rod_radius = 0.004
+cylinder_radius = 0.016
+
+hinge_joint_width = 0.06
+hinge_joint_radius = 0.02
+hinge_joint_gap = 0.005
+
+ball_joint_outer_radius = 0.02
+ball_joint_inner_radius = 0.015
+ball_joint_cover_offset = 0.005
+
+
 def new_material( color, backface_culling=True, name='' ) :
 
 	mat = bpy.data.materials.new( name=name )
@@ -12,7 +36,6 @@ def new_material( color, backface_culling=True, name='' ) :
 	mat.game_settings.use_backface_culling = backface_culling
 
 	return mat
-
 
 red = new_material( ( 1, 0, 0 ) )
 green = new_material( ( 0, 1, 0 ) )
@@ -122,7 +145,7 @@ def track_to( obj, target ) :
 	obj.game.actuators[-1].link( obj.game.controllers[-1] )
 
 
-def rod( posA, posB, vecA=None, vecB=None, radius=0.005, bevel_res=1, spline_res=20, mat=None ) :
+def rod( posA, posB, vecA=None, vecB=None, radius=rod_radius, bevel_res=1, spline_res=20, mat=None ) :
 	
 	bpy.ops.curve.primitive_bezier_curve_add( location=( 0, 0, 0 ) )
 	obj = bpy.context.object
@@ -157,10 +180,6 @@ def rod( posA, posB, vecA=None, vecB=None, radius=0.005, bevel_res=1, spline_res
 	return obj
 
 
-hinge_joint_width = 0.08
-hinge_joint_radius = 0.025
-hinge_joint_gap = 0.01
-
 def hinge_joint( pos, dir_vec, mat_out=None, mat_in=None ) :
 
 	norm_vec = dir_vec/np.linalg.norm( dir_vec )
@@ -187,7 +206,7 @@ def hinge_joint( pos, dir_vec, mat_out=None, mat_in=None ) :
 	return outer_part
 
 
-def cylinder_ab( posA, posB, radius=0.005, vert=12, smooth=False, mat=None ) :
+def cylinder_ab( posA, posB, radius, vert=12, smooth=False, mat=None ) :
 
 	center = ( np.array( posA ) + np.array( posB ) )/2
 	dir_vec = np.array( posB ) - np.array( posA )
@@ -204,7 +223,7 @@ def cylinder_ab( posA, posB, radius=0.005, vert=12, smooth=False, mat=None ) :
 	return obj
 
 
-def cylinder_c( pos, dir_vec, length, radius=0.005, vert=12, smooth=False, mat=None ) :
+def cylinder_c( pos, dir_vec, length, radius, vert=12, smooth=False, mat=None ) :
 
 	bpy.ops.mesh.primitive_cylinder_add( vertices=vert, radius=radius, depth=length, location=pos, rotation=zvec_to_euler( dir_vec ) )
 
@@ -218,7 +237,7 @@ def cylinder_c( pos, dir_vec, length, radius=0.005, vert=12, smooth=False, mat=N
 	return obj
 
 
-def sphere( pos, radius=0.005, segments=8, ring_count=4, mat=None ) :
+def sphere( pos, radius=rod_radius, segments=8, ring_count=4, mat=None ) :
 
 	#bpy.ops.surface.primitive_nurbs_surface_sphere_add( location=pos, radius=radius )
 	bpy.ops.mesh.primitive_uv_sphere_add( location=pos, size=radius, segments=segments, ring_count=ring_count )
@@ -230,10 +249,6 @@ def sphere( pos, radius=0.005, segments=8, ring_count=4, mat=None ) :
 
 	return obj
 
-
-ball_joint_outer_radius = 0.025
-ball_joint_inner_radius = 0.02
-ball_joint_cover_offset = 0.005
 
 def ball_joint( pos, dir_vec, mat_out=None, mat_in=None ) :
 
@@ -263,7 +278,7 @@ def ball_joint( pos, dir_vec, mat_out=None, mat_in=None ) :
 	return outer_part
 
 
-def rod_suite( pos_list, radius=0.005, mat=None ) :
+def rod_suite( pos_list, radius=rod_radius, mat=None ) :
 
 	obj_list = []
 
@@ -417,7 +432,7 @@ def linked_spring( posA, posB, parentA=None, parentB=None, widthA=0.02, widthB=0
 	return frame1, frame2, armature, spr
 
 
-def linear_actuator( posA, posB, parentA=None, parentB=None, cylinder_length=0.15, cylinder_radius=0.02, cylinder_vert=12, rod_radius=0.005, matA=None, matB=None, cylinder_mat=dark, rod_mat=alu ) :
+def linear_actuator( posA, posB, parentA=None, parentB=None, cylinder_length=0.15, cylinder_radius=cylinder_radius, cylinder_vert=12, rod_radius=rod_radius, matA=None, matB=None, cylinder_mat=dark, rod_mat=alu ) :
 
 	vec = np.array( posB ) - np.array( posA )
 	vec = vec/np.linalg.norm( vec )
