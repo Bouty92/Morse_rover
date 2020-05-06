@@ -22,7 +22,7 @@ class Rover1(morse.core.robot.Robot):
 		# Do here robot specific initializations
 		logger.info('Component initialized')
 
-		self.prev_time = self.gettime()
+		#self.prev_time = self.gettime()
 
 	def default_action(self):
 		""" Main loop of the robot
@@ -32,6 +32,6 @@ class Rover1(morse.core.robot.Robot):
 		# and sensors). But you can add here robot-level actions.
 		#pass
 
-		time = self.gettime()
-		print( 'robot:     %f' % ( time - self.prev_time ) )
-		self.prev_time = time
+		#time = self.gettime()
+		#print( 'robot:     %f' % ( time - self.prev_time ) )
+		#self.prev_time = time

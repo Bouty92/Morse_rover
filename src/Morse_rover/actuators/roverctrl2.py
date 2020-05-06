@@ -134,6 +134,7 @@ class Roverctrl2( morse.core.actuator.Actuator ) :
 			self.axles.append( self.scene.objects['axles ' + str( i + 1 )] )
 
 		self.wheels_Kp = 5
+		#self.wheels_Kp = 1
 		self.wheels_Ki = 0
 		self.wheels_Kd = 0
 		self.wheels_max_torque = 100
@@ -237,6 +238,8 @@ class Roverctrl2( morse.core.actuator.Actuator ) :
 				true_speed, torque = controller.update( robot_speed/self.wheels_radius + omega_steer + omega_turn )
 				#if i == 0 :
 					#print( '%+f %+f' % ( true_speed*180/pi, torque ) )
+				#print( torque, end=' ' )
+			#print( '' )
 		#if self.local_data['crawl'] :
 			#self.wheels_controllers[1].update( 0 )
 			#self.wheels_controllers[2].update( 0 )

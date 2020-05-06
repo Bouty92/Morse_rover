@@ -74,8 +74,8 @@ class hingeController() :
 
 		time = blenderapi.persistantstorage().time.time
 		elapsed_time = time - self.prev_time
-		if self.obj1.name == 'rear frame' :
-			print( 'component: %f' % elapsed_time )
+		#if self.obj1.name == 'rear frame' :
+			#print( 'component: %f' % elapsed_time )
 
 		self.int_err += ( self.prev_err + err )/2*elapsed_time
 

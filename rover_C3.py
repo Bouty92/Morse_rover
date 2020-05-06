@@ -26,7 +26,7 @@ torque_sensor_height = wheels_radius + 0.05
 axles_BM_size = ( torque_sensor_height - wheels_radius, track/2 - wheels_axle_y, torque_sensor_height - wheels_radius )
 axles_BM_mass = 0.5
 
-chassis_height = 0.3
+chassis_height = 0.5
 
 steering_limit = 50
 boggie_limit = 50
